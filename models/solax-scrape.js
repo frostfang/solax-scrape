@@ -13,7 +13,6 @@ module.exports = function(config){
         async.waterfall([
             function getLogin(cb){
                 // login first
-                // build the calendar request for the current state
                 var opt = {
                     url: 'http://www.solax-portal.com/dz/home/login',
                     form:{
@@ -29,7 +28,9 @@ module.exports = function(config){
                 request.post(opt, function(err, resp, body) {
                     // http log, regardless of response
                     
-                    //console.log(err,resp);
+                    if(body.toString().indexOf('Invalid username or password')>=0)
+                        err = new Error('Invalid credentials for Solax Portal');
+
                     cb(err);
                      
                 });
@@ -49,6 +50,7 @@ module.exports = function(config){
 // timeTypeSel=2017-07-02&StartTime=2017-07-12&EndTime=2017-07-14&Time1=2017-07&Time2=2017&export=true&reportType=0
 // StartTime=2017-06-14&EndTime=2017-07-14&export=true&reportType=0
 
+
                 var opt = {
                     url: rUri,
                     jar: true
@@ -57,7 +59,9 @@ module.exports = function(config){
                 request.get(opt, function(err, resp, body) {
                     // http log, regardless of response
                     
-                    //console.log(err,resp);
+                    if(body.toString().indexOf('The page will be automatically redirected')>=0)
+                        err = new Error('Something in Solax Portal went wrong...');
+                        
                     cb(err);
                     
                 }).pipe(fs.createWriteStream(config.workingFile || 'solax-export.csv'));

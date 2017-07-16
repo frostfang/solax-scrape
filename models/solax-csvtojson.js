@@ -29,7 +29,7 @@ module.exports = function(config, itemCB, doneCB) {
         ]
     })
     .fromFile(config.filePath)
-    .preFileLine((lStr, i)=>{
+    .preFileLine(function(lStr, i){
         
         // get the sitename 
         // site name seems to always be the second column in the csv
