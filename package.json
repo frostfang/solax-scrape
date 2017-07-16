@@ -24,7 +24,11 @@
   "dependencies": {},
   "devDependencies": {},
   "bundleDependencies": [],
-
-  "private": true,
+  "keywords": [
+    "Solax",
+    "Node.js",
+    "scraper",
+    "openshift"
+  ],
   "main": "server.js"
 }
