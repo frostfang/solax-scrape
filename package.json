@@ -16,14 +16,14 @@
     "underscore": "^1.8.3"
   },
   
+  "devDependencies": {},
+  "bundleDependencies": [],
+  
   "engines": {
     "node": ">= 0.6.0",
     "npm": ">= 1.0.0"
   },
 
-  "dependencies": {},
-  "devDependencies": {},
-  "bundleDependencies": [],
   "keywords": [
     "Solax",
     "Node.js",
