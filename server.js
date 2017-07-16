@@ -1,6 +1,7 @@
 // var http = require('http');
 // var path = require('path');
 // var express = require('express');
+var fs = require('fs');
 var cloudant = require('cloudant');
 var underscore = require('underscore');
 var solaxscrape = require('./models/solax-scrape');
@@ -8,7 +9,12 @@ var solaxrunner = require('./models/solax-runner');
 var CronJob = require('cron').CronJob;
 
 // the working file directory
-var workingCSVFile = 'csv/solax-export.csv';
+var workingDir = 'csv';
+var workingCSVFile = workingDir + '/solax-export.csv';
+// create the working directory if needed
+if (!fs.existsSync(workingDir)){
+    fs.mkdirSync(workingDir);
+}
 
 // the scraper
 var scraper = new solaxscrape({ 
