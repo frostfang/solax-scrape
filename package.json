@@ -1,0 +1,18 @@
+{
+  "name": "solax-scrape",
+  "version": "0.0.1",
+  "description": "A scraper of the solax portal website",
+  "main": "server.js",
+  "repository": "https://github.com/frostfang/solax-scrape.git",
+  "author": "Michael Barber <bigmichael_12@hotmail.com>",
+  "dependencies": {
+    "async": "~0.2.8",
+    "cloudant": "^1.8.0",
+    "cron": "^1.2.1",
+    "csvtojson": "^1.1.7",
+    "express": "~3.2.4",
+    "request": "^2.81.0",
+    "socket.io": "~0.9.14",
+    "underscore": "^1.8.3"
+  }
+}
