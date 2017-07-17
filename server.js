@@ -12,6 +12,7 @@ var CronJob = require('cron').CronJob;
 var tzDate = new Date();
 console.log('server started ', tzDate);
 console.log('server timezone offset', tzDate.getTimezoneOffset());
+console.log('server toJSON', tzDate.toJSON());
 
 // the working file directory
 var workingDir = 'csv';
@@ -55,8 +56,8 @@ function(err, clCtx){
     var runner = new solaxrunner(scraper,cdb);
     
     // create the cron job
-    // var cronPattern = '0 0 */4 * * *'
-    var cronPattern = '0 */5 * * * *';
+    var cronPattern = '0 0 */4 * * *'
+    // var cronPattern = '0 */5 * * * *';
     job = new CronJob(cronPattern, function(){
         console.log('running scrape [' + cronPattern + ']');
         
