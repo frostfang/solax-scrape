@@ -58,7 +58,7 @@ module.exports = function(config, itemCB, doneCB) {
             // parse any date values, for now just hardcode...
             if(v === "Last Updated"){
                 var d = new Date(j[v]);
-                j[nk] = d.toJSON();
+                j[nk] = d.toJSON();     // TODO: Change this to remain local based
                 
                 // adding these in for cdb indexing purposes
                 j[nk + "Year"] = d.getFullYear();

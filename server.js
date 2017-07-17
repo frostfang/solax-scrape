@@ -8,6 +8,11 @@ var solaxscrape = require('./models/solax-scrape');
 var solaxrunner = require('./models/solax-runner');
 var CronJob = require('cron').CronJob;
 
+// outputting the server time
+var tzDate = new Date();
+console.log('server started ', tzDate);
+console.log('server timezone offset', tzDate.getTimezoneOffset());
+
 // the working file directory
 var workingDir = 'csv';
 var workingCSVFile = workingDir + '/solax-export.csv';
