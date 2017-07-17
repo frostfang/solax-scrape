@@ -13,6 +13,7 @@ module.exports = function(config){
         async.waterfall([
             function getLogin(cb){
                 // login first
+                console.log('scrape - pre login');
                 var opt = {
                     url: 'http://www.solax-portal.com/dz/home/login',
                     form:{
@@ -27,6 +28,7 @@ module.exports = function(config){
 
                 request.post(opt, function(err, resp, body) {
                     // http log, regardless of response
+                    console.log('scrape - post login');
                     
                     if(body.toString().indexOf('Invalid username or password')>=0)
                         err = new Error('Invalid credentials for Solax Portal');
@@ -38,7 +40,7 @@ module.exports = function(config){
             },
             function getReport(cb){
                 // get the report
-                
+                console.log('scrape - pre grab file');
                 var rUri = 'http://www.solax-portal.com/dz/user/ReportResult/' + 
                             config.siteId.toString() + 
                             '?StartTime=' + startDate.toJSON().split('T')[0] + 
@@ -58,7 +60,8 @@ module.exports = function(config){
 
                 request.get(opt, function(err, resp, body) {
                     // http log, regardless of response
-                    
+                    console.log('scrape - post grab file');
+                     
                     if(body.toString().indexOf('The page will be automatically redirected')>=0)
                         err = new Error('Something in Solax Portal went wrong...');
                         
@@ -70,7 +73,7 @@ module.exports = function(config){
         ],
         
         function final(err){
-            
+            console.log('scrape - completed, calling doneCB', err);
             if(doneCB)
                 return doneCB(err);
         });
