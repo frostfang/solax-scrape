@@ -1,5 +1,6 @@
 var underscore = require('underscore');
 var solaxscsv = require('./solax-csvtojson');
+var moment = require("moment");
 
 module.exports = function(scraper, cdb){
     
@@ -17,7 +18,8 @@ module.exports = function(scraper, cdb){
             
             // establish the log
             var scrapeLog = {
-                _id: "log," + (new Date()).toJSON(),
+                // _id: "log," + (new Date()).toJSON(),
+                _id: "log," + moment().format('YYYY-MM-DD HH:mm:ss'),
                 timezoneOffset: "UTC"
             };
             

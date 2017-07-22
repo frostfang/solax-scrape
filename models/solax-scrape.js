@@ -2,6 +2,7 @@
 var request = require('request');
 var async = require('async');
 var fs = require('fs');
+var moment = require('moment');
 
 module.exports = function(config){
     
@@ -30,6 +31,9 @@ module.exports = function(config){
                     // http log, regardless of response
                     console.log('scrape - post login');
                     
+                    // TODO: Change this and the above so that you don't call toString on 
+                    // an undefined object, it needs to look at err and if body exists first
+                    
                     if(body.toString().indexOf('Invalid username or password')>=0)
                         err = new Error('Invalid credentials for Solax Portal');
 
@@ -41,10 +45,11 @@ module.exports = function(config){
             function getReport(cb){
                 // get the report
                 console.log('scrape - pre grab file');
+                console.log('scrape - dates', moment(startDate).format('YYYY-MM-DD HH:mm:ss'),moment(endDate).format('YYYY-MM-DD HH:mm:ss'));
                 var rUri = 'http://www.solax-portal.com/dz/user/ReportResult/' + 
                             config.siteId.toString() + 
-                            '?StartTime=' + startDate.toJSON().split('T')[0] + 
-                            '&EndTime=' + endDate.toJSON().split('T')[0] + 
+                            '?StartTime=' + moment(startDate).format('YYYY-MM-DD') + 
+                            '&EndTime=' + moment(endDate).format('YYYY-MM-DD') + 
                             '&export=true&reportType=0';
                             
 // Example query strings    
@@ -61,7 +66,10 @@ module.exports = function(config){
                 request.get(opt, function(err, resp, body) {
                     // http log, regardless of response
                     console.log('scrape - post grab file');
-                     
+                    
+                    // TODO: Change this and the above so that you don't call toString on 
+                    // an undefined object, it needs to look at err and if body exists first
+                    
                     if(body.toString().indexOf('The page will be automatically redirected')>=0)
                         err = new Error('Something in Solax Portal went wrong...');
                         

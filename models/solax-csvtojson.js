@@ -1,7 +1,7 @@
 // This processes the scraped CSV file that comes from the website
 var csvtojson = require("csvtojson");
 var underscore = require('underscore');
-
+var moment = require('moment');
 
 module.exports = function(config, itemCB, doneCB) {
     
@@ -58,7 +58,8 @@ module.exports = function(config, itemCB, doneCB) {
             // parse any date values, for now just hardcode...
             if(v === "Last Updated"){
                 var d = new Date(j[v]);
-                j[nk] = d.toJSON();     // TODO: Change this to remain local based
+                //j[nk] = d.toJSON();     // TODO: Change this to remain local based
+                j[nk] = moment(d).format('YYYY-MM-DD HH:mm:ss');     
                 
                 // adding these in for cdb indexing purposes
                 j[nk + "Year"] = d.getFullYear();
