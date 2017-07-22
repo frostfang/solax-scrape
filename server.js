@@ -6,6 +6,7 @@ var cloudant = require('cloudant');
 var underscore = require('underscore');
 var solaxscrape = require('./models/solax-scrape');
 var solaxrunner = require('./models/solax-runner');
+var moment = require('moment');
 var CronJob = require('cron').CronJob;
 
 // outputting the server time
@@ -13,6 +14,7 @@ var tzDate = new Date();
 console.log('server started ', tzDate);
 console.log('server timezone offset', tzDate.getTimezoneOffset());
 console.log('server toJSON', tzDate.toJSON());
+console.log('server moment', moment(tzDate).format('YYYY-MM-DD HH:mm:ss'));
 
 // the working file directory
 var workingDir = 'csv';
@@ -56,8 +58,8 @@ function(err, clCtx){
     var runner = new solaxrunner(scraper,cdb);
     
     // create the cron job
-    var cronPattern = '0 0 */4 * * *'
-    // var cronPattern = '0 */5 * * * *';
+    //var cronPattern = '0 0 */4 * * *'
+    var cronPattern = '0 */1 * * * *';
     job = new CronJob(cronPattern, function(){
         console.log('running scrape [' + cronPattern + ']');
         
@@ -77,7 +79,7 @@ function(err, clCtx){
     // and kick it off within the cdb context
     job.start();
     console.log('cron started');
-    
+    // very first date 2017-07-04
     // TODO: add in express and some api methods
 
 });
