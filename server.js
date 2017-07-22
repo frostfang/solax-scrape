@@ -58,8 +58,8 @@ function(err, clCtx){
     var runner = new solaxrunner(scraper,cdb);
     
     // create the cron job
-    //var cronPattern = '0 0 */4 * * *'
-    var cronPattern = '0 */1 * * * *';
+    var cronPattern = process.env.APP_CRON_PATTERN || '0 */20 * * * *'
+    //var cronPattern = '0 */1 * * * *';
     job = new CronJob(cronPattern, function(){
         console.log('running scrape [' + cronPattern + ']');
         
