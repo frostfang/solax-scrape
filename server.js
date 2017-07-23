@@ -33,10 +33,10 @@ var scraper = new solaxscrape({
     siteId: process.env.SCRAPE_SITEID,
     workingFile: workingCSVFile
 });
-
+// the scraper runner
+var runner;
 // the cron context
 var job;
-
 // cloudant context
 var cdb;
 
@@ -55,7 +55,7 @@ function(err, clCtx){
     cdb = clCtx.db.use(process.env.CDB_DB);
     
     // create the runner
-    var runner = new solaxrunner(scraper,cdb);
+    runner = new solaxrunner(scraper,cdb);
     
     // create the cron job
     var cronPattern = process.env.APP_CRON_PATTERN || '0 */20 * * * *';
@@ -93,6 +93,26 @@ router.get('/', function(req,res){
     res.send('scraper running ' + process.env.APP_CRON_PATTERN || '0 */20 * * * *');
 });
 
+router.get('/run', function(req,res){
+    
+    // TODO: allow the passing of dates from the query string
+    // TODO: pass back the response from the runner bulk update so you get the info on the page
+    
+    // setup the working dates
+    var workingEndDate = new Date();
+    workingEndDate.setHours(0,0,0,0);
+    var workingStartDate = new Date(workingEndDate);
+    workingStartDate.setDate(workingStartDate.getDate() + ((1 - process.env.SCRAPE_DAYS) || 1));
+    
+    // and kick off the runner
+    console.log('running scrape - via express /run');
+    runner.run(workingStartDate, workingEndDate, function(){
+        console.log('scraped and saved - via express /run');
+        res.send('scraped and saved');
+    });
+});
+
+// kick off the server
 server.listen(
     process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 3000, 
     process.env.OPENSHIFT_NODEJS_IP || process.env.IP || "0.0.0.0", 
