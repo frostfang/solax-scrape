@@ -61,7 +61,7 @@ function(err, clCtx){
     var cronPattern = process.env.APP_CRON_PATTERN || '0 */20 * * * *';
     //var cronPattern = '0 */1 * * * *';
     job = new CronJob(cronPattern, function(){
-        console.log('running scrape [' + cronPattern + ']');
+        console.log('running scrape [' + cronPattern + '] -', moment().format());
         
         // setup the working dates
         var workingEndDate = new Date();
@@ -71,7 +71,7 @@ function(err, clCtx){
         
         // and kick off the runner
         runner.run(workingStartDate, workingEndDate, function(){
-            console.log('scraped and saved');
+            console.log('scraped and saved -', moment().format());
         });
         
     });
@@ -105,10 +105,11 @@ router.get('/run', function(req,res){
     workingStartDate.setDate(workingStartDate.getDate() + ((1 - process.env.SCRAPE_DAYS) || 1));
     
     // and kick off the runner
-    console.log('running scrape - via express /run');
+    console.log('running scrape - via express /run -', moment().format());
     runner.run(workingStartDate, workingEndDate, function(){
-        console.log('scraped and saved - via express /run');
-        res.send('scraped and saved');
+        var dstamp =  moment().format();
+        console.log('scraped and saved - via express /run -', dstamp);
+        res.send('scraped and saved - ' + dstamp);
     });
 });
 
