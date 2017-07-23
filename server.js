@@ -1,6 +1,6 @@
-// var http = require('http');
-// var path = require('path');
-// var express = require('express');
+var http = require('http');
+var path = require('path');
+var express = require('express');
 var fs = require('fs');
 var cloudant = require('cloudant');
 var underscore = require('underscore');
@@ -58,7 +58,7 @@ function(err, clCtx){
     var runner = new solaxrunner(scraper,cdb);
     
     // create the cron job
-    var cronPattern = process.env.APP_CRON_PATTERN || '0 */20 * * * *'
+    var cronPattern = process.env.APP_CRON_PATTERN || '0 */20 * * * *';
     //var cronPattern = '0 */1 * * * *';
     job = new CronJob(cronPattern, function(){
         console.log('running scrape [' + cronPattern + ']');
@@ -85,13 +85,18 @@ function(err, clCtx){
 });
 
 
+// The express server for actions if needed
+var router = express();
+var server = http.createServer(router);
 
-// // express config ready to use if needed
-// var router = express();
-// var server = http.createServer(router);
+router.get('/', function(req,res){
+    res.send('scraper running ' + process.env.APP_CRON_PATTERN || '0 */20 * * * *');
+});
 
-
-// server.listen(process.env.PORT || 3000, process.env.IP || "0.0.0.0", function(){
-//   var addr = server.address();
-//   console.log("Chat server listening at", addr.address + ":" + addr.port);
-// });
+server.listen(
+    process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 3000, 
+    process.env.OPENSHIFT_NODEJS_IP || process.env.IP || "0.0.0.0", 
+    function(){
+        var addr = server.address();
+        console.log("solax scraper server listening at", addr.address + ":" + addr.port);
+});
