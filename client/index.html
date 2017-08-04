@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+
+<!-- TODO: NEED TO CHANGE THIS SO IT WORKS -->
+
+<head>
+  <title>#TagSentiment</title>
+  <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/core.css">
+  <link rel="stylesheet" href="css/graphs.css">
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="page-header">
+      <h1>
+        <div id="heading">Solax Scraper</div>
+      </h1>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+
+      </div>
+      <div class="row">
+        <div class="col-xs-12 col-md-8">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">
+                solar costs
+              </h3>
+            </div>
+            <div class="panel-body">
+              <div id="solar-graph" class="text-center"></div>
+            </div>
+          </div>
+
+
+        </div>
+        <div class="col-xs-6 col-md-4">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">
+                state of the cron importer
+              </h3>
+            </div>
+            <div class="panel-body">
+              <div id="visit-graph"></div>
+              <div>
+This is some text
+
+              </div>
+            </div>
+          </div>
+
+          
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <script src="/js/jquery-2.1.0.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.min.js"></script>
+  <script src="/js/d3-3.4.11.min.js"></script>
+  <!--<script src="/socket.io/socket.io.js"></script>-->
+  
+  <script src="/js/ts-router.js"></script>
+  
+  <script src="/js/ts-site.js"></script>
+  
+  <script type="text/html" id="tpl-tags">
+    <ul class="nav nav-pills">
+    {{#tags}}
+      <li role="presentation" {{#active}}class="active"{{/active}}><a class="tag" href="#{{tagname}}">{{tagname}}</a></li>
+    {{/tags}}
+    </ul>  
+  </script>
+  <script type="text/html" id="tpl-tagsearch">
+    <h1>
+        <div class="input-group">
+          <span class="input-group-addon">#</span>
+          <input type="text" class="form-control taginput" placeholder="tag" />
+            
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-primary go" >go</button>
+          </span>
+        </div>
+      </h1>
+  </script>
+</body>
+
+</html>
