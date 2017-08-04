@@ -1,6 +1,8 @@
 var fs = require("fs");
 
-var emit = function(){ console.log(arguments)}; // just a marker function for the couchdb internal function
+// couchdb design doc - powerCalc
+// marker function for the couchdb internal function
+var emit = function(){ console.log(arguments)};
 
 // map function: cost generated
 var map_generatedCost = function(doc){
@@ -99,5 +101,3 @@ fs.readFile('example-3.json', function(err, data){
     map_generatedCost(JSON.parse(data));
 });
 
-
-// TODO: Push this into GIT

@@ -8,6 +8,7 @@ var solaxscrape = require('./models/solax-scrape');
 var solaxrunner = require('./models/solax-runner');
 var moment = require('moment');
 var CronJob = require('cron').CronJob;
+var rss = require('rss');
 
 // outputting the server time
 var tzDate = new Date();
@@ -89,14 +90,25 @@ function(err, clCtx){
 var router = express();
 var server = http.createServer(router);
 
-router.get('/', function(req,res){
+//router.use( bodyParser.json() );    // to support JSON-encoded bodies
+// router.use(bodyParser.urlencoded({     // to support URL-encoded bodies, Might not need this
+//   extended: true
+// }));
+
+// the client website for the root application
+router.use(express.static(path.resolve(__dirname, 'client')));
+
+// the state of the cron job
+router.get('/state', function(req,res){
     res.send('scraper running ' + process.env.APP_CRON_PATTERN || '0 */20 * * * *');
 });
 
+// kick off a cron job
 router.get('/run', function(req,res){
     
     // TODO: allow the passing of dates from the query string
     // TODO: pass back the response from the runner bulk update so you get the info on the page
+    // TODO: also need to add in some views on cloudant
     
     // setup the working dates
     var workingEndDate = new Date();
@@ -112,6 +124,77 @@ router.get('/run', function(req,res){
         res.send('scraped and saved - ' + dstamp);
     });
 });
+
+// get the logging
+router.get('/log', function(req, res) {
+    cdb.view('logging', 'scrapeLog', { limit:30, descending:true, reduce:false }, function(err,body,hdrs){
+        if(err)
+            return res.send(err);
+        
+        res.send(body);
+    });
+});
+
+router.get('/log/rss', function(req, res) {
+    cdb.view('logging', 'scrapeLog', { limit:30, descending:true, reduce:false }, function(err,body,hdrs){
+        if(err)
+            return res.send(err);
+        
+        var logRss = new rss({
+            title: 'Solax scraper log rss feed',
+            description: 'Log of the most recent fetched items',
+            author: 'frostfang83',
+            feed_url: 'http://solaxscrape-mpbarber.rhcloud.com/log/rss',
+            site_url: 'http://solaxscrape-mpbarber.rhcloud.com/'
+        });
+        
+        // TODO: Add in some logic for determining errors rather than just hitting the endpoint
+        // maybe add a view of bulk errors or something.
+        body.rows.forEach(function(v){
+            logRss.item({
+                title: 'scrape log: ' + v.key,
+                description: JSON.stringify(v.value),
+                url: 'http://solaxscrape-mpbarber.rhcloud.com/log/rss',
+                guid: v.key,
+                date: v.key.replace(' ','T')
+            });
+        });
+        
+        res.send(logRss.xml({indent:true}));
+        
+    });
+});
+
+router.get('/anomalies/rss', function(req, res) {
+    cdb.view('logging', 'anomaliesLog', { limit:30, descending:true, reduce:false }, function(err,body,hdrs){
+        if(err)
+            return res.send(err);
+        
+        var logRss = new rss({
+            title: 'Solax anomalies log rss feed',
+            description: 'Log of the most recent anomalies in the data',
+            author: 'frostfang83',
+            feed_url: 'http://solaxscrape-mpbarber.rhcloud.com/anomalies/rss',
+            site_url: 'http://solaxscrape-mpbarber.rhcloud.com/'
+        });
+        
+        body.rows.forEach(function(v){
+            logRss.item({
+                title: 'scrape log: ' + v.key,
+                description: JSON.stringify(v.value),
+                url: 'http://solaxscrape-mpbarber.rhcloud.com/anomalies/rss',
+                guid: v.key,
+                date: v.key.replace(' ','T')
+            });
+        });
+        
+        res.send(logRss.xml({indent:true}));
+        
+    });
+});
+
+
+
 
 // kick off the server
 server.listen(
