@@ -13,6 +13,7 @@
     "express": "~3.2.4",
     "moment": "^2.18.1",
     "request": "^2.81.0",
+    "rss": "^1.2.2",
     "socket.io": "~0.9.14",
     "underscore": "^1.8.3"
   },
