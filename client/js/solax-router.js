@@ -7,12 +7,12 @@ var AppRouter = Backbone.Router.extend({
     currentView: null,
 
     routes: {
-        ':hashtag': 'urlhashchange'
+        ':datechange': 'dateRangeChange'
     },
     
-    urlhashchange: function(t){
+    dateRangeChange: function(i){
         //console.log('routechange', arguments);
-        this.trigger('routechange',t);
+        this.trigger('datechange',i);
     },
     
     changeView: function(view) {
@@ -22,8 +22,8 @@ var AppRouter = Backbone.Router.extend({
         this.currentView.render();
     },
     
-    setTag: function(t){
+    setRange: function(i){
         //console.log('setTag', arguments);
-        this.navigate(t);
+        this.navigate(i);
     }
 });

@@ -1,4 +1,6 @@
-/* global d3 Backbone graphSentiment graphTags Tags TagSearch TagSearchView TagsView AppRouter io _*/
+/* global d3 Backbone graphSentiment graphTags Tags TagSearch TagSearchView TagsView AppRouter io _ $ */
+
+// TODO: change this
 
 // main
 $(function() {

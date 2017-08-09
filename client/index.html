@@ -69,15 +69,17 @@ This is some text
   <script src="/js/d3-3.4.11.min.js"></script>
   <!--<script src="/socket.io/socket.io.js"></script>-->
   
-  <script src="/js/ts-router.js"></script>
+  <!--<script src="/js/ts-router.js"></script>-->
   
-  <script src="/js/ts-site.js"></script>
+  <!--<script src="/js/ts-site.js"></script>-->
   
-  <script type="text/html" id="tpl-tags">
+  <script type="text/html" id="tpl-consupmtion">
     <ul class="nav nav-pills">
-    {{#tags}}
-      <li role="presentation" {{#active}}class="active"{{/active}}><a class="tag" href="#{{tagname}}">{{tagname}}</a></li>
-    {{/tags}}
+      <li role="presentation" >{{value.sum}}</li>
+      <li role="presentation" >{{value.count}}</li>
+      <li role="presentation" >{{value.min}}</li>
+      <li role="presentation" >{{value.max}}</li>
+      <li role="presentation" >{{value.sumsqr}}</li>
     </ul>  
   </script>
   <script type="text/html" id="tpl-tagsearch">
