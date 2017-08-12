@@ -5,7 +5,10 @@ var Consumption = Backbone.Model.extend({
 });
 
 var Consumptions = Backbone.Collection.extend({
-    model: Consumption
+    model: Consumption,
+    url: function(){
+        return '/consumption'
+    }
     // bulkchange: function(tags){
     //     var selectedTag;
     //     if(this.findWhere({active: true}))

@@ -125,6 +125,36 @@ router.get('/run', function(req,res){
     });
 });
 
+router.get('/consumption', function(req, res) {
+    
+    // handle the absense of query params
+    if(!req.query.s || !req.query.e)
+        res.send({ success: false, message: 'missing one or more date parameters'});
+    
+    //?limit=100&reduce=true&inclusive_end=true&start_key=%5B2017%2C7%2C4%2C0%2C0%2C0%5D&end_key=%5B2017%2C7%2C5%2C0%2C0%2C0%5D&group_level=0
+    // create the date
+    cdb.view('powerCalc', 'consumedCost', { 
+        reduce:true, 
+        inclusive_end:true,
+        group_level:0,
+        start_key:req.query.s,
+        end_key:req.query.e
+        //start_key: '[2017,7,4,0,0,0]',
+        //end_key: '[2017,7,5,0,0,0]'
+    }, function(err,body,hdrs){
+        if(err)
+            return res.send(err);
+        
+        res.send(body);
+    });
+        
+    var sDte = req.query.s;
+    var eDte = req.query.e;    
+
+    //res.send({ success: true, message: 'yes'});
+    
+})
+
 // get the logging
 router.get('/log', function(req, res) {
     cdb.view('logging', 'scrapeLog', { limit:30, descending:true, reduce:false }, function(err,body,hdrs){

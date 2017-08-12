@@ -1,7 +1,6 @@
 <!doctype html>
 <html lang="en">
 
-<!-- TODO: NEED TO CHANGE THIS SO IT WORKS -->
 
 <head>
   <title>#TagSentiment</title>
@@ -30,10 +29,12 @@
             <div class="panel-heading">
               <h3 class="panel-title">
                 solar costs
-              </h3>
+              </h3> 
             </div>
             <div class="panel-body">
-              <div id="solar-graph" class="text-center"></div>
+              <div id="searchview" class="text-center">
+                
+              </div>
             </div>
           </div>
 
@@ -68,10 +69,10 @@ This is some text
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.min.js"></script>
   <script src="/js/d3-3.4.11.min.js"></script>
   <!--<script src="/socket.io/socket.io.js"></script>-->
-  
-  <!--<script src="/js/ts-router.js"></script>-->
-  
-  <!--<script src="/js/ts-site.js"></script>-->
+  <script src="/js/solax-models-consumptions.js"></script>
+  <script src="/js/solax-models-search.js"></script>
+  <script src="/js/solax-router.js"></script>
+  <script src="/js/solax-site.js"></script>
   
   <script type="text/html" id="tpl-consupmtion">
     <ul class="nav nav-pills">
@@ -82,16 +83,22 @@ This is some text
       <li role="presentation" >{{value.sumsqr}}</li>
     </ul>  
   </script>
-  <script type="text/html" id="tpl-tagsearch">
+  
+  <script type="text/html" id="tpl-search">
     <h1>
         <div class="input-group">
-          <span class="input-group-addon">#</span>
-          <input type="text" class="form-control taginput" placeholder="tag" />
-            
-          <span class="input-group-btn">
-            <button type="button" class="btn btn-primary go" >go</button>
-          </span>
+        
+          <span class="input-group-addon">Start Date</span>
+          <input id="dtlStartDate" name="StartDateTime" type="datetime-local" class="form-control date" value="{{StartDateString}}" />
+           <span class="input-group-addon">End Date</span>
+          <input id="dtlEndDate" name="EndDateTime" type="datetime-local" class="form-control date" value="{{EndDateString}}" />
+        
         </div>
+        <div class="input-group">
+          <input type="button" class="btn btn-default" id="test" value="click" />
+          
+        </div>
+        
       </h1>
   </script>
 </body>
