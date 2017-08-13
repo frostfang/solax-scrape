@@ -35,6 +35,9 @@
               <div id="searchview" class="text-center">
                 
               </div>
+              <div id="consumptionview">
+                
+              </div>
             </div>
           </div>
 
@@ -75,13 +78,16 @@ This is some text
   <script src="/js/solax-site.js"></script>
   
   <script type="text/html" id="tpl-consupmtion">
-    <ul class="nav nav-pills">
-      <li role="presentation" >{{value.sum}}</li>
-      <li role="presentation" >{{value.count}}</li>
-      <li role="presentation" >{{value.min}}</li>
-      <li role="presentation" >{{value.max}}</li>
-      <li role="presentation" >{{value.sumsqr}}</li>
-    </ul>  
+    <table class="table">
+    
+      <tr><td>Sum</td><td>{{data.sum}}</td></tr>
+      <tr><td>Count</td><td>{{data.count}}</td></tr>
+      <tr><td>Minimum</td><td>{{data.min}}</td></tr>
+      <tr><td>Maximum</td><td>{{data.max}}</td></tr>
+      <tr><td>Sum Squares</td><td>{{data.sumsqr}}</td></tr>
+      <tr><td>Mean</td><td>{{data.mean}}</td></tr>
+      <tr><td>Std Deviation</td><td>{{data.std}}</td></tr>
+    </table>  
   </script>
   
   <script type="text/html" id="tpl-search">

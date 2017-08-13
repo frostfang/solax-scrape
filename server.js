@@ -131,7 +131,6 @@ router.get('/consumption', function(req, res) {
     if(!req.query.s || !req.query.e)
         res.send({ success: false, message: 'missing one or more date parameters'});
     
-    //?limit=100&reduce=true&inclusive_end=true&start_key=%5B2017%2C7%2C4%2C0%2C0%2C0%5D&end_key=%5B2017%2C7%2C5%2C0%2C0%2C0%5D&group_level=0
     // create the date
     cdb.view('powerCalc', 'consumedCost', { 
         reduce:true, 
@@ -145,15 +144,11 @@ router.get('/consumption', function(req, res) {
         if(err)
             return res.send(err);
         
-        res.send(body);
+        // there should only ever be one row because of the reduce
+        res.send({ success:true, data: body.rows[0].value });
     });
-        
-    var sDte = req.query.s;
-    var eDte = req.query.e;    
+});
 
-    //res.send({ success: true, message: 'yes'});
-    
-})
 
 // get the logging
 router.get('/log', function(req, res) {

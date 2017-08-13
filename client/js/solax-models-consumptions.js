@@ -1,33 +1,26 @@
 /* globals Backbone Mustache $ */
 
 var Consumption = Backbone.Model.extend({
-    idAttribute: 'key'
-});
-
-var Consumptions = Backbone.Collection.extend({
-    model: Consumption,
     url: function(){
-        return '/consumption'
-    }
-    // bulkchange: function(tags){
-    //     var selectedTag;
-    //     if(this.findWhere({active: true}))
-    //       selectedTag = this.findWhere({active: true}).get('tagname');
-            
-    //     this.reset();
-    //     this.add(tags);
+        return '/consumption?s=' + this.dateToArrayString(this.get('StartDate')) + '&e=' + this.dateToArrayString(this.get('EndDate'));
+    },
+    dateToArrayString: function(d){
+        // return "[" + d.toJSON().slice(0,19).replace(/-|T|:/g,",") + "]";
         
-    //     if(selectedTag)
-    //         this.findWhere({ tagname: selectedTag }).set({ active: true });
-            
-    //     this.trigger('bulkchange');
-    // }
+        return "[" + d.getFullYear() + "," + (d.getMonth() + 1) + "," + d.getDate() + 
+                "," + d.getHours() + "," + d.getMinutes() + "," + d.getSeconds() + "]";
+    },
+    parse: function(res,opt){
+        res.data.mean = res.data.sum / res.data.count;
+        res.data.std = (res.data.sumsqr / res.data.count) - (res.data.mean * res.data.mean);
+        return res;
+    }
 });
 
-var ConsumptionsView = Backbone.View.extend({
+var ConsumptionView = Backbone.View.extend({
     initialize: function(){
-        this.template = $('#tpl-consupmtions').html();
-        //this.listenTo(this.collection, 'bulkchange', this.render); 
+        this.template = $('#tpl-consupmtion').html();
+        this.listenTo(this.model, 'change', this.render); 
     },
     // events:{
     //     'click .tag': 'tagClick'
@@ -43,7 +36,11 @@ var ConsumptionsView = Backbone.View.extend({
     //     this.trigger('tagselected', tag);
     // },
     render: function(){
-        this.$el.html(Mustache.to_html(this.template, { tags: this.collection.toJSON() }));
+        this.$el.html(Mustache.to_html(this.template, this.model.toJSON()));
         return this;
     }
+    
+    // TODO: add in a renderer to floor the long numbers
+    // TODO: add in the generation models as well. Maybe abstract to a generic object.
+    
 });

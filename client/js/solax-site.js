@@ -1,4 +1,4 @@
-/* global d3 Backbone SearchView ConsumptionsView Consumptions Search AppRouter io _ $ */
+/* global d3 Backbone SearchView ConsumptionView Consumption Search AppRouter io _ $ */
 
 // TODO: change this
 
@@ -13,13 +13,11 @@ $(function() {
 
     // Models
     var search = new Search({ StartDate: defaultStartDate, EndDate: defaultEndDate });
-    var consumptions = new Consumptions();
-    
-    consumptions.fetch();
+    var consumption = new Consumption({StartDate: defaultStartDate, EndDate: defaultEndDate });
     
     // Views
     var searchview = new SearchView({ el: '#searchview', model: search });
-    //var consumptionsview = new ConsumptionsView({ el: '#tags', collection: consumptions });
+    var consumptionview = new ConsumptionView({ el: '#consumptionview', model: consumption });
     var approuter = new AppRouter();
     
     // Events
@@ -64,7 +62,7 @@ $(function() {
     
     // start the app
     Backbone.history.start();
-    //tags.fetch();
+    consumption.fetch();
 
 
 });
