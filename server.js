@@ -125,19 +125,20 @@ router.get('/run', function(req,res){
     });
 });
 
-router.get('/consumption', function(req, res) {
+
+router.get('/cost/:costtype/:start-:end', function(req, res) {
     
     // handle the absense of query params
-    if(!req.query.s || !req.query.e)
+    if(!req.params.start || !req.params.end)
         res.send({ success: false, message: 'missing one or more date parameters'});
     
     // create the date
-    cdb.view('powerCalc', 'consumedCost', { 
+    cdb.view('powerCalc', req.params.costtype, { 
         reduce:true, 
         inclusive_end:true,
         group_level:0,
-        start_key:req.query.s,
-        end_key:req.query.e
+        start_key:req.params.start,
+        end_key:req.params.end
         //start_key: '[2017,7,4,0,0,0]',
         //end_key: '[2017,7,5,0,0,0]'
     }, function(err,body,hdrs){

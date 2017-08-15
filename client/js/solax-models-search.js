@@ -1,4 +1,4 @@
-/* globals Backbone Mustache $ _ */
+/* globals Backbone Mustache moment $ _ */
 
 var Search = Backbone.Model.extend({});
 
@@ -14,10 +14,9 @@ var SearchView = Backbone.View.extend({
         'change .date': 'inputChange'
     },
     goClick: function(ev){
-        console.log('clicked');
-        var ed = new Date();
-        var sd = new Date();
-        sd.setDate(ed.getDate()-5);
+        
+        var sd = new Date(this.$sDte.val());
+        var ed = new Date(this.$eDte.val());
         
         this.model.set({
             StartDate: sd,
@@ -27,20 +26,20 @@ var SearchView = Backbone.View.extend({
     },
     inputChange: function(ev){
         var t = $(ev.currentTarget).val();
-        console.log(t);
         // if(t != this.model.get('tag')){
         //     this.model.set({ tag: t, previousTag: this.model.get('tag'), active: (t.length > 0) });
         // }
     },
     render: function(){
+        console.log('render');
         // transfor the range dates to html5 date strings
         var o = this.model.toJSON();
         
         if(o.StartDate)
-            o.StartDateString = o.StartDate.toJSON().slice(0,16);
+            o.StartDateString = moment(o.StartDate).format("YYYY-MM-DDTHH:mm");
         
         if(o.EndDate)
-            o.EndDateString = o.EndDate.toJSON().slice(0,16);
+            o.EndDateString = moment(o.EndDate).format("YYYY-MM-DDTHH:mm");
             
         this.$el.html(Mustache.to_html(this.template, o));
         

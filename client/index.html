@@ -35,8 +35,13 @@
               <div id="searchview" class="text-center">
                 
               </div>
-              <div id="consumptionview">
-                
+              <div class="row">
+                <div id="consumptionview" class="col-md-6 panel-default">
+                  
+                </div>
+                <div id="generationview" class="col-md-6 panel-default">
+                  
+                </div>
               </div>
             </div>
           </div>
@@ -66,6 +71,7 @@ This is some text
     </div>
   </div>
   <script src="/js/jquery-2.1.0.min.js"></script>
+  <script src="https://momentjs.com/downloads/moment.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
@@ -77,9 +83,9 @@ This is some text
   <script src="/js/solax-router.js"></script>
   <script src="/js/solax-site.js"></script>
   
-  <script type="text/html" id="tpl-consupmtion">
+  <script type="text/html" id="tpl-cost">
+    <div class="panel-heading">{{title}}</div>
     <table class="table">
-    
       <tr><td>Sum</td><td>{{data.sum}}</td></tr>
       <tr><td>Count</td><td>{{data.count}}</td></tr>
       <tr><td>Minimum</td><td>{{data.min}}</td></tr>
@@ -89,6 +95,8 @@ This is some text
       <tr><td>Std Deviation</td><td>{{data.std}}</td></tr>
     </table>  
   </script>
+  
+  <!-- http://jqueryui.com/slider/#range -->
   
   <script type="text/html" id="tpl-search">
     <h1>

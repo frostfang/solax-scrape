@@ -1,4 +1,4 @@
-/* global d3 Backbone SearchView ConsumptionView Consumption Search AppRouter io _ $ */
+/* global d3 Backbone SearchView CostView Consumption Generation Search AppRouter io _ $ */
 
 // TODO: change this
 
@@ -14,12 +14,22 @@ $(function() {
     // Models
     var search = new Search({ StartDate: defaultStartDate, EndDate: defaultEndDate });
     var consumption = new Consumption({StartDate: defaultStartDate, EndDate: defaultEndDate });
+    var generation = new Generation({StartDate: defaultStartDate, EndDate: defaultEndDate });
     
     // Views
     var searchview = new SearchView({ el: '#searchview', model: search });
-    var consumptionview = new ConsumptionView({ el: '#consumptionview', model: consumption });
+    var consumptionview = new CostView({ el: '#consumptionview', model: consumption });
+    var generationview = new CostView({ el: '#generationview', model: generation });
+    consumptionview.title = 'Consumption';
+    generationview.title = 'Generation';
+    
+    // Client Router
     var approuter = new AppRouter();
     
+    Backbone.listenTo(search, 'change', function(){   
+        consumption.set(search.pick('StartDate','EndDate')).fetch();
+        generation.set(search.pick('StartDate','EndDate')).fetch(); 
+    });
     // Events
     // approuter.listenTo(tagsearchview, 'tagchanged', function(t){ 
     //     approuter.setTag(t);
@@ -63,6 +73,7 @@ $(function() {
     // start the app
     Backbone.history.start();
     consumption.fetch();
+    generation.fetch();
 
 
 });
