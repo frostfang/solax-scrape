@@ -2,7 +2,6 @@
 
 var Search = Backbone.Model.extend({});
 
-// TODO: establish default date
 
 var SearchView = Backbone.View.extend({
     initialize: function(){

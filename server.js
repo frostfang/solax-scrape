@@ -153,7 +153,7 @@ router.get('/cost/:costtype/:start-:end', function(req, res) {
 
 // get the logging
 router.get('/log', function(req, res) {
-    cdb.view('logging', 'scrapeLog', { limit:30, descending:true, reduce:false }, function(err,body,hdrs){
+    cdb.view('logging', 'scrapeLog', { limit:10, descending:true, reduce:false }, function(err,body,hdrs){
         if(err)
             return res.send(err);
         
@@ -162,7 +162,7 @@ router.get('/log', function(req, res) {
 });
 
 router.get('/log/rss', function(req, res) {
-    cdb.view('logging', 'scrapeLog', { limit:30, descending:true, reduce:false }, function(err,body,hdrs){
+    cdb.view('logging', 'scrapeLog', { limit:10, descending:true, reduce:false }, function(err,body,hdrs){
         if(err)
             return res.send(err);
         

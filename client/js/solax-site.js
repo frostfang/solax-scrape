@@ -1,4 +1,4 @@
-/* global d3 Backbone SearchView CostView Consumption Generation Search AppRouter io _ $ */
+/* global Backbone SearchView CostView Consumption Generation Search AppRouter Log LogView _ $ */
 
 // TODO: change this
 
@@ -15,8 +15,10 @@ $(function() {
     var search = new Search({ StartDate: defaultStartDate, EndDate: defaultEndDate });
     var consumption = new Consumption({StartDate: defaultStartDate, EndDate: defaultEndDate });
     var generation = new Generation({StartDate: defaultStartDate, EndDate: defaultEndDate });
+    var log = new Log();
     
     // Views
+    var logview = new LogView({ el:'#log-history', model: log });
     var searchview = new SearchView({ el: '#searchview', model: search });
     var consumptionview = new CostView({ el: '#consumptionview', model: consumption });
     var generationview = new CostView({ el: '#generationview', model: generation });
@@ -26,6 +28,7 @@ $(function() {
     // Client Router
     var approuter = new AppRouter();
     
+    // events
     Backbone.listenTo(search, 'change', function(){   
         consumption.set(search.pick('StartDate','EndDate')).fetch();
         generation.set(search.pick('StartDate','EndDate')).fetch(); 
@@ -74,6 +77,6 @@ $(function() {
     Backbone.history.start();
     consumption.fetch();
     generation.fetch();
-
+    log.fetch();
 
 });
